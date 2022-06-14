@@ -1,0 +1,10 @@
+sourceCompatibility = 1.17
+dependencies {
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'ch.qos.logback:logback-classic:1.2.11'
+}
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+
+eclipse.project.name = appName + "-core"
