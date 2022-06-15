@@ -6,6 +6,7 @@ public final class Player {
 
   private long points;
 
+
   public Player(long points) {
     this.points = points;
   }

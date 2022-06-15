@@ -1,0 +1,49 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	MikuMainFont: {
+		file: mikufont.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	ButtonBackground: {
+		r: 0
+		g: 0.3019608
+		b: 0.6627451
+		a: 1
+	}
+	ButtonBackgroundDown: {
+		r: 0
+		g: 0.07450981
+		b: 0.40784314
+		a: 1
+	}
+	ButtonHover: {
+		r: 0
+		g: 0.36862746
+		b: 0.78431374
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+	ButtonUp: {
+		name: white-pixel
+		color: ButtonBackground
+	}
+	ButtonBackgroundDown: {
+		name: white-pixel
+		color: ButtonBackgroundDown
+	}
+	ButtonHover: {
+		name: white-pixel
+		color: ButtonHover
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: MikuMainFont
+		up: ButtonUp
+		down: ButtonBackgroundDown
+		over: ButtonHover
+	}
+}
+}
