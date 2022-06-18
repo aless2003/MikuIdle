@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,24 +16,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import java.text.NumberFormat;
+import java.text.NumberFormat.Style;
+import java.util.Locale;
 import online.hatsunemiku.games.idle.logic.Player;
 import online.hatsunemiku.games.idle.ui.clicker.stage.ClickerStage;
 import online.hatsunemiku.games.idle.ui.clicker.stage.ShopStage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import online.hatsunemiku.games.idle.ui.shop.ShopView;
 
 public class MikuIdleGame extends ApplicationAdapter {
 
-  private static final Logger log = LoggerFactory.getLogger(MikuIdleGame.class);
   private SpriteBatch batch;
   private Texture img;
   private Viewport viewport;
   private ClickerStage stage;
-  private ShopStage shop;
+  private ShopStage shopStage;
 
   private BitmapFont font;
 
   private Player player;
+  private ShopView shopView;
 
   @Override
   public void create() {
@@ -43,6 +46,8 @@ public class MikuIdleGame extends ApplicationAdapter {
     assetManager.load("img/v4x.png", Texture.class);
     assetManager.load("fonts/mikufont.png", Texture.class);
     assetManager.load("skins/StandardSkin.json", Skin.class);
+    assetManager.load("sounds/button.mp3", Sound.class);
+    assetManager.load("sounds/cancel.mp3", Sound.class);
 
     assetManager.finishLoading();
 
@@ -50,16 +55,19 @@ public class MikuIdleGame extends ApplicationAdapter {
     Texture fontTexture = assetManager.get("fonts/mikufont.png");
     Skin standardSkin = assetManager.get("skins/StandardSkin.json");
 
-    this.viewport = new FitViewport(100, 100);
+    this.viewport = new FitViewport(1000, 1000);
     player = new Player(0);
     this.stage = new ClickerStage(viewport, player);
-    this.shop = new ShopStage(standardSkin, viewport);
 
-    InputMultiplexer inputMultiplexer = new InputMultiplexer();
-    inputMultiplexer.addProcessor(shop);
-    inputMultiplexer.addProcessor(stage);
+    InputMultiplexer multiplexer = new InputMultiplexer();
 
-    Gdx.input.setInputProcessor(inputMultiplexer);
+    this.shopView = new ShopView(assetManager, player, multiplexer, viewport);
+    this.shopStage = new ShopStage(standardSkin, viewport, shopView);
+
+    multiplexer.addProcessor(shopStage);
+    multiplexer.addProcessor(stage);
+    Gdx.input.setInputProcessor(multiplexer);
+
 
     FileHandle fontFile = Gdx.files.internal("fonts/mikufont.fnt");
 
@@ -74,25 +82,41 @@ public class MikuIdleGame extends ApplicationAdapter {
   @Override
   public void render() {
     ScreenUtils.clear(Color.BLACK);
+
+    if (shopView.shouldEnter()) {
+      shopView.draw();
+    } else {
+      renderMainView();
+    }
+
+    player.generate(Gdx.graphics.getDeltaTime());
+  }
+
+  private void renderMainView() {
     viewport.apply();
     batch.setProjectionMatrix(viewport.getCamera().combined);
-
     stage.draw();
-    shop.draw();
+    shopStage.draw();
 
     batch.begin();
+    renderPoints();
+    batch.end();
+  }
 
+  private void renderPoints() {
     float pointOffset = viewport.getWorldWidth() / 10f;
     float pointY = viewport.getWorldHeight() - pointOffset;
     float pointTargetWidth = viewport.getWorldWidth() / 2.5f;
 
+    NumberFormat numberFormat = NumberFormat.getCompactNumberInstance(Locale.ENGLISH, Style.SHORT);
+    numberFormat.setMaximumFractionDigits(1);
     float scoreX = pointOffset + pointTargetWidth + (viewport.getWorldWidth() / 100f);
     float scoreTargetWidth = viewport.getWorldWidth() / 2f;
 
     font.draw(batch, "Points: ", pointOffset, pointY, pointTargetWidth, 1, false);
-    font.draw(batch, String.valueOf(player.getPoints()), scoreX, pointY, scoreTargetWidth, 1,
+    String pointString = numberFormat.format(player.getPoints());
+    font.draw(batch, pointString, scoreX, pointY, scoreTargetWidth, 1,
         false);
-    batch.end();
   }
 
   @Override

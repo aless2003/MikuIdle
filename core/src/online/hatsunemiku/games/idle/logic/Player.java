@@ -1,43 +1,35 @@
 package online.hatsunemiku.games.idle.logic;
 
-import java.util.Objects;
+import online.hatsunemiku.games.idle.logic.generator.Generator;
+import online.hatsunemiku.games.idle.logic.generator.SelfClickerGenerator;
 
 public final class Player {
 
-  private long points;
-
-
+  private float points;
+  private Generator clickerGen;
   public Player(long points) {
     this.points = points;
   }
 
-  public void addPoints(long points) {
+  public void addPoints(float points) {
     this.points += points;
   }
 
-  public long getPoints() {
+  public float getPoints() {
     return points;
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this)
-      return true;
-    if (obj == null || obj.getClass() != this.getClass())
-      return false;
-    var that = (Player) obj;
-    return this.points == that.points;
+  public void addClicker() {
+    if (clickerGen == null) {
+      clickerGen = new SelfClickerGenerator(this);
+    } else {
+      clickerGen.addMultiplier(1);
+    }
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(points);
+  public void generate(float delta) {
+    if (clickerGen != null) {
+      clickerGen.generate(delta);
+    }
   }
-
-  @Override
-  public String toString() {
-    return "Player[" +
-        "points=" + points + ']';
-  }
-
 }

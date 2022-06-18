@@ -6,10 +6,20 @@ public abstract class Generator {
 
   protected long addValue;
   protected long multiplier = 1;
-  protected Generator(long addValue) {
+
+  protected Player player;
+  protected Generator(long addValue, Player player) {
     this.addValue = addValue;
+    this.player = player;
   }
 
-  public abstract void generate(Player player);
+  public void generate(float delta) {
+    float add = addValue * delta;
+    add *= multiplier;
+    player.addPoints(add);
+  }
 
+  public void addMultiplier(int i) {
+    this.multiplier += i;
+  }
 }
