@@ -20,16 +20,16 @@ public class ShopView extends Stage {
 
   private static final Logger log = LoggerFactory.getLogger(ShopView.class);
   private boolean shouldEnter = false;
-  private final Table table;
+
   public ShopView(AssetManager assetManager, Player player, InputMultiplexer multiplexer, Viewport viewport) {
     super();
     setViewport(viewport);
 
     Skin skin = assetManager.get("skins/StandardSkin.json");
-    Sound confirm = assetManager.get("sounds/button.mp3");
+    Sound confirm = assetManager.get("sounds/buy.mp3");
     Sound cancel = assetManager.get("sounds/cancel.mp3");
 
-    table = new Table();
+    Table table = new Table();
     table.setFillParent(true);
 
     TextButton clickerGen = new TextButton("Buy Clicker", skin);
@@ -93,11 +93,5 @@ public class ShopView extends Stage {
     log.info("Entering shop");
     Gdx.input.setInputProcessor(this);
     shouldEnter = true;
-  }
-
-  @Override
-  public void draw() {
-    super.draw();
-    log.debug("Table size: " + table.getWidth() + "x" + table.getHeight());
   }
 }

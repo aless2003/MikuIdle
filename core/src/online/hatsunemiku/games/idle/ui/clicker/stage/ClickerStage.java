@@ -26,8 +26,9 @@ public class ClickerStage extends Stage {
 
     clicker.moveBy(moveX, moveY);
 
-    Texture texture = new Texture("img/v4x.png");
+    Texture texture = new Texture("img/clicker.png");
     float aspect = (float) texture.getWidth() / (float) texture.getHeight();
+    texture.dispose();
 
     float standardWidth = getWidth() / 2f;
     float standardHeight = getHeight() / 2f;

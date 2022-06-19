@@ -27,7 +27,6 @@ import online.hatsunemiku.games.idle.ui.shop.ShopView;
 public class MikuIdleGame extends ApplicationAdapter {
 
   private SpriteBatch batch;
-  private Texture img;
   private Viewport viewport;
   private ClickerStage stage;
   private ShopStage shopStage;
@@ -37,25 +36,28 @@ public class MikuIdleGame extends ApplicationAdapter {
   private Player player;
   private ShopView shopView;
 
+  Texture bg;
   @Override
   public void create() {
 
-
     AssetManager assetManager = new AssetManager();
     batch = new SpriteBatch();
-    assetManager.load("img/v4x.png", Texture.class);
     assetManager.load("fonts/mikufont.png", Texture.class);
+    assetManager.load("img/bg.png", Texture.class);
     assetManager.load("skins/StandardSkin.json", Skin.class);
-    assetManager.load("sounds/button.mp3", Sound.class);
+    assetManager.load("sounds/buy.mp3", Sound.class);
     assetManager.load("sounds/cancel.mp3", Sound.class);
 
     assetManager.finishLoading();
 
-    img = assetManager.get("img/v4x.png");
     Texture fontTexture = assetManager.get("fonts/mikufont.png");
     Skin standardSkin = assetManager.get("skins/StandardSkin.json");
 
-    this.viewport = new FitViewport(1000, 1000);
+    float viewportWidth = 1000;
+    float viewportHeight = 1000;
+
+    bg = assetManager.get("img/bg.png");
+    this.viewport = new FitViewport(viewportWidth, viewportHeight);
     player = new Player(0);
     this.stage = new ClickerStage(viewport, player);
 
@@ -67,7 +69,6 @@ public class MikuIdleGame extends ApplicationAdapter {
     multiplexer.addProcessor(shopStage);
     multiplexer.addProcessor(stage);
     Gdx.input.setInputProcessor(multiplexer);
-
 
     FileHandle fontFile = Gdx.files.internal("fonts/mikufont.fnt");
 
@@ -95,6 +96,9 @@ public class MikuIdleGame extends ApplicationAdapter {
   private void renderMainView() {
     viewport.apply();
     batch.setProjectionMatrix(viewport.getCamera().combined);
+    batch.begin();
+    batch.draw(bg, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+    batch.end();
     stage.draw();
     shopStage.draw();
 
@@ -115,14 +119,12 @@ public class MikuIdleGame extends ApplicationAdapter {
 
     font.draw(batch, "Points: ", pointOffset, pointY, pointTargetWidth, 1, false);
     String pointString = numberFormat.format(player.getPoints());
-    font.draw(batch, pointString, scoreX, pointY, scoreTargetWidth, 1,
-        false);
+    font.draw(batch, pointString, scoreX, pointY, scoreTargetWidth, 1, false);
   }
 
   @Override
   public void dispose() {
     batch.dispose();
-    img.dispose();
   }
 
   @Override
