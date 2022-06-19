@@ -12,7 +12,7 @@ public class MikuClicker extends Actor implements Disposable {
 
 
   private static final Logger log = LoggerFactory.getLogger(MikuClicker.class);
-  private final Texture texture = new Texture("img/v4x.png");
+  private final Texture texture = new Texture("img/clicker.png");
 
   public MikuClicker(ClickerListener listener) {
     debug();
@@ -22,7 +22,6 @@ public class MikuClicker extends Actor implements Disposable {
   @Override
   public void draw(Batch batch, float parentAlpha) {
     super.draw(batch, parentAlpha);
-
     batch.draw(texture, getX(), getY(), getWidth(), getHeight());
   }
 
