@@ -1,12 +1,14 @@
 package online.hatsunemiku.games.idle.logic;
 
-import online.hatsunemiku.games.idle.logic.generator.Generator;
+import online.hatsunemiku.games.idle.logic.generator.NodeGenerator;
 import online.hatsunemiku.games.idle.logic.generator.SelfClickerGenerator;
 
 public final class Player {
 
   private float points;
-  private Generator clickerGen;
+  private SelfClickerGenerator clickerGen;
+
+  private NodeGenerator nodeGen;
   public Player(long points) {
     this.points = points;
   }
@@ -27,9 +29,21 @@ public final class Player {
     }
   }
 
+  public void addNode() {
+    if (nodeGen == null) {
+      nodeGen = new NodeGenerator(this);
+    } else {
+      nodeGen.addMultiplier(1);
+    }
+  }
+
   public void generate(float delta) {
     if (clickerGen != null) {
       clickerGen.generate(delta);
+    }
+
+    if (nodeGen != null) {
+      nodeGen.generate(delta);
     }
   }
 }

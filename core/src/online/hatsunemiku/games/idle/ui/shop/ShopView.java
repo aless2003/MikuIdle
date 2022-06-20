@@ -1,5 +1,8 @@
 package online.hatsunemiku.games.idle.ui.shop;
 
+import static online.hatsunemiku.games.idle.logic.generator.GeneratorValues.CLICKER;
+import static online.hatsunemiku.games.idle.logic.generator.GeneratorValues.NODE;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
@@ -13,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import online.hatsunemiku.games.idle.logic.Player;
+import online.hatsunemiku.games.idle.logic.generator.GeneratorListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,31 +37,18 @@ public class ShopView extends Stage {
     table.setFillParent(true);
 
     TextButton clickerGen = new TextButton("Buy Clicker", skin);
+    TextButton nodeGen = new TextButton("Buy Node", skin);
     TextButton exit = new TextButton("Exit", skin);
     Label label = new Label("", skin);
     label.setVisible(false);
     label.setFontScale(0.5f);
 
     clickerGen.setTransform(true);
+    nodeGen.setTransform(true);
     exit.setTransform(true);
 
-    clickerGen.addListener(new ClickListener() {
-      @Override
-      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        if (player.getPoints() >= 1) {
-          confirm.play();
-          player.addPoints(-1);
-          player.addClicker();
-          exitShop(multiplexer, label);
-        } else {
-          cancel.play();
-          label.setText("You don't have enough points!");
-          label.setVisible(true);
-        }
-        return true;
-      }
-    });
-
+    clickerGen.addListener(new GeneratorListener(player, CLICKER, assetManager, label));
+    nodeGen.addListener(new GeneratorListener(player, NODE, assetManager, label));
     exit.addListener(new ClickListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -68,6 +59,8 @@ public class ShopView extends Stage {
     });
 
     table.add(clickerGen);
+    table.row();
+    table.add(nodeGen);
     table.row();
     table.add(exit);
     table.row();

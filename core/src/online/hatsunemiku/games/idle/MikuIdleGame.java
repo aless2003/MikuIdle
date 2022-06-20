@@ -58,7 +58,7 @@ public class MikuIdleGame extends ApplicationAdapter {
 
     bg = assetManager.get("img/bg.png");
     this.viewport = new FitViewport(viewportWidth, viewportHeight);
-    player = new Player(0);
+    player = new Player(100_000);
     this.stage = new ClickerStage(viewport, player);
 
     InputMultiplexer multiplexer = new InputMultiplexer();
@@ -114,12 +114,17 @@ public class MikuIdleGame extends ApplicationAdapter {
 
     NumberFormat numberFormat = NumberFormat.getCompactNumberInstance(Locale.ENGLISH, Style.SHORT);
     numberFormat.setMaximumFractionDigits(1);
-    float scoreX = pointOffset + pointTargetWidth + (viewport.getWorldWidth() / 100f);
-    float scoreTargetWidth = viewport.getWorldWidth() / 2f;
+    float scoreX = pointOffset + (pointOffset / 2f) + pointTargetWidth + (viewport.getWorldWidth() / 100f);
+    float scoreTargetWidth = viewport.getWorldWidth() / 2.5f;
 
     font.draw(batch, "Points: ", pointOffset, pointY, pointTargetWidth, 1, false);
     String pointString = numberFormat.format(player.getPoints());
+    float scaleX = font.getScaleX();
+    float scaleY = font.getScaleY();
+    float tempX = scaleX * (1 - (pointString.length() / 20f));
+    font.getData().setScale(tempX, scaleY);
     font.draw(batch, pointString, scoreX, pointY, scoreTargetWidth, 1, false);
+    font.getData().setScale(scaleX, scaleY);
   }
 
   @Override

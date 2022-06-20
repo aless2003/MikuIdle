@@ -4,11 +4,11 @@ import online.hatsunemiku.games.idle.logic.Player;
 
 public abstract class Generator {
 
-  protected long addValue;
+  protected float addValue;
   protected long multiplier = 1;
 
   protected Player player;
-  protected Generator(long addValue, Player player) {
+  protected Generator(float addValue, Player player) {
     this.addValue = addValue;
     this.player = player;
   }
