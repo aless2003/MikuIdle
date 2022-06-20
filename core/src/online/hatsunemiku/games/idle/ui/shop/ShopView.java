@@ -1,6 +1,7 @@
 package online.hatsunemiku.games.idle.ui.shop;
 
 import static online.hatsunemiku.games.idle.logic.generator.GeneratorValues.CLICKER;
+import static online.hatsunemiku.games.idle.logic.generator.GeneratorValues.MICROPHONE;
 import static online.hatsunemiku.games.idle.logic.generator.GeneratorValues.NODE;
 
 import com.badlogic.gdx.Gdx;
@@ -38,6 +39,7 @@ public class ShopView extends Stage {
 
     TextButton clickerGen = new TextButton("Buy Clicker", skin);
     TextButton nodeGen = new TextButton("Buy Node", skin);
+    TextButton microphoneGen = new TextButton("Buy Microphone", skin);
     TextButton exit = new TextButton("Exit", skin);
     Label label = new Label("", skin);
     label.setVisible(false);
@@ -45,10 +47,12 @@ public class ShopView extends Stage {
 
     clickerGen.setTransform(true);
     nodeGen.setTransform(true);
+    microphoneGen.setTransform(true);
     exit.setTransform(true);
 
     clickerGen.addListener(new GeneratorListener(player, CLICKER, assetManager, label));
     nodeGen.addListener(new GeneratorListener(player, NODE, assetManager, label));
+    microphoneGen.addListener(new GeneratorListener(player, MICROPHONE, assetManager, label));
     exit.addListener(new ClickListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -61,6 +65,8 @@ public class ShopView extends Stage {
     table.add(clickerGen);
     table.row();
     table.add(nodeGen);
+    table.row();
+    table.add(microphoneGen);
     table.row();
     table.add(exit);
     table.row();

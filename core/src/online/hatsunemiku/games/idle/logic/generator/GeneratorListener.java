@@ -30,6 +30,7 @@ public class GeneratorListener extends ClickListener {
         switch (costs) {
           case CLICKER -> player.addClicker();
           case NODE -> player.addNode();
+          case MICROPHONE -> player.addMicrophone();
           default -> throw new IllegalStateException("Unexpected value: " + costs);
         }
       } else {
