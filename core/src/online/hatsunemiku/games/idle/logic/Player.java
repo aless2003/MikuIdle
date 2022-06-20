@@ -1,5 +1,6 @@
 package online.hatsunemiku.games.idle.logic;
 
+import online.hatsunemiku.games.idle.logic.generator.GeneratorValues;
 import online.hatsunemiku.games.idle.logic.generator.MicrophoneGenerator;
 import online.hatsunemiku.games.idle.logic.generator.NodeGenerator;
 import online.hatsunemiku.games.idle.logic.generator.SelfClickerGenerator;
@@ -59,6 +60,21 @@ public final class Player {
       microphoneGen = new MicrophoneGenerator(this);
     } else {
       microphoneGen.addMultiplier(1);
+    }
+  }
+
+  public long getGeneratorLevel(GeneratorValues costs) {
+    switch (costs) {
+      case CLICKER -> {
+        return clickerGen == null ? 0 : clickerGen.getMultiplier();
+      }
+      case NODE -> {
+        return nodeGen == null ? 0 : nodeGen.getMultiplier();
+      }
+      case MICROPHONE -> {
+        return microphoneGen == null ? 0 : microphoneGen.getMultiplier();
+      }
+      default -> throw new IllegalArgumentException("Unknown generator type");
     }
   }
 }

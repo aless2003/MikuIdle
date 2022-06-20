@@ -21,8 +21,12 @@ public class GeneratorListener extends ClickListener {
   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
     if (button == Buttons.LEFT) {
       log.debug("Trying to buy " + costs.name());
-      if (player.getPoints() >= costs.cost) {
-        player.addPoints(-costs.cost);
+      float cost = costs.cost * (player.getGeneratorLevel(costs) * 0.1f);
+      if (cost == 0) {
+        cost = costs.cost;
+      }
+      if (player.getPoints() >= cost) {
+        player.addPoints(-cost);
         Sound buy = manager.get("sounds/buy.mp3");
         buy.play();
         errorLabel.setText("");

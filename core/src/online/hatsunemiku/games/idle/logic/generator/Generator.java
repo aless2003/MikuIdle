@@ -22,4 +22,8 @@ public abstract class Generator {
   public void addMultiplier(int i) {
     this.multiplier += i;
   }
+
+  public long getMultiplier() {
+    return multiplier;
+  }
 }
