@@ -2,7 +2,7 @@ package online.hatsunemiku.games.idle.logic;
 
 import online.hatsunemiku.games.idle.logic.generator.GeneratorValues;
 import online.hatsunemiku.games.idle.logic.generator.MicrophoneGenerator;
-import online.hatsunemiku.games.idle.logic.generator.NodeGenerator;
+import online.hatsunemiku.games.idle.logic.generator.NoteGenerator;
 import online.hatsunemiku.games.idle.logic.generator.SelfClickerGenerator;
 
 public final class Player {
@@ -10,7 +10,7 @@ public final class Player {
   private float points;
   private SelfClickerGenerator clickerGen;
 
-  private NodeGenerator nodeGen;
+  private NoteGenerator noteGen;
   private MicrophoneGenerator microphoneGen;
 
   public Player(long points) {
@@ -33,11 +33,11 @@ public final class Player {
     }
   }
 
-  public void addNode() {
-    if (nodeGen == null) {
-      nodeGen = new NodeGenerator(this);
+  public void addNote() {
+    if (noteGen == null) {
+      noteGen = new NoteGenerator(this);
     } else {
-      nodeGen.addMultiplier(1);
+      noteGen.addMultiplier(1);
     }
   }
 
@@ -46,8 +46,8 @@ public final class Player {
       clickerGen.generate(delta);
     }
 
-    if (nodeGen != null) {
-      nodeGen.generate(delta);
+    if (noteGen != null) {
+      noteGen.generate(delta);
     }
 
     if (microphoneGen != null) {
@@ -68,8 +68,8 @@ public final class Player {
       case CLICKER -> {
         return clickerGen == null ? 0 : clickerGen.getMultiplier();
       }
-      case NODE -> {
-        return nodeGen == null ? 0 : nodeGen.getMultiplier();
+      case NOTE -> {
+        return noteGen == null ? 0 : noteGen.getMultiplier();
       }
       case MICROPHONE -> {
         return microphoneGen == null ? 0 : microphoneGen.getMultiplier();

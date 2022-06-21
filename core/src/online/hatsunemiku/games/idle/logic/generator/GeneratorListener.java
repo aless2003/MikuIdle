@@ -33,7 +33,7 @@ public class GeneratorListener extends ClickListener {
         errorLabel.setVisible(false);
         switch (costs) {
           case CLICKER -> player.addClicker();
-          case NODE -> player.addNode();
+          case NOTE -> player.addNote();
           case MICROPHONE -> player.addMicrophone();
           default -> throw new IllegalStateException("Unexpected value: " + costs);
         }

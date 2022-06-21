@@ -2,7 +2,7 @@ package online.hatsunemiku.games.idle.ui.shop;
 
 import static online.hatsunemiku.games.idle.logic.generator.GeneratorValues.CLICKER;
 import static online.hatsunemiku.games.idle.logic.generator.GeneratorValues.MICROPHONE;
-import static online.hatsunemiku.games.idle.logic.generator.GeneratorValues.NODE;
+import static online.hatsunemiku.games.idle.logic.generator.GeneratorValues.NOTE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -38,7 +38,7 @@ public class ShopView extends Stage {
     table.setFillParent(true);
 
     TextButton clickerGen = new TextButton("Buy Clicker", skin);
-    TextButton nodeGen = new TextButton("Buy Node", skin);
+    TextButton noteGen = new TextButton("Buy Note", skin);
     TextButton microphoneGen = new TextButton("Buy Microphone", skin);
     TextButton exit = new TextButton("Exit", skin);
     Label label = new Label("", skin);
@@ -46,12 +46,12 @@ public class ShopView extends Stage {
     label.setFontScale(0.5f);
 
     clickerGen.setTransform(true);
-    nodeGen.setTransform(true);
+    noteGen.setTransform(true);
     microphoneGen.setTransform(true);
     exit.setTransform(true);
 
     clickerGen.addListener(new GeneratorListener(player, CLICKER, assetManager, label));
-    nodeGen.addListener(new GeneratorListener(player, NODE, assetManager, label));
+    noteGen.addListener(new GeneratorListener(player, NOTE, assetManager, label));
     microphoneGen.addListener(new GeneratorListener(player, MICROPHONE, assetManager, label));
     exit.addListener(new ClickListener() {
       @Override
@@ -64,7 +64,7 @@ public class ShopView extends Stage {
 
     table.add(clickerGen);
     table.row();
-    table.add(nodeGen);
+    table.add(noteGen);
     table.row();
     table.add(microphoneGen);
     table.row();
