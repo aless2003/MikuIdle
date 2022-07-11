@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -47,6 +48,7 @@ public class MikuIdleGame extends ApplicationAdapter {
     assetManager.load("skins/StandardSkin.json", Skin.class);
     assetManager.load("sounds/buy.mp3", Sound.class);
     assetManager.load("sounds/cancel.mp3", Sound.class);
+    assetManager.load("music/bgm.mp3", Music.class);
 
     assetManager.finishLoading();
 
@@ -58,7 +60,7 @@ public class MikuIdleGame extends ApplicationAdapter {
 
     bg = assetManager.get("img/bg.png");
     this.viewport = new FitViewport(viewportWidth, viewportHeight);
-    player = new Player(100_000);
+    player = new Player(0);
     this.stage = new ClickerStage(viewport, player);
 
     InputMultiplexer multiplexer = new InputMultiplexer();
@@ -77,7 +79,9 @@ public class MikuIdleGame extends ApplicationAdapter {
     font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
     font.getData().setScale(fontScale);
 
-
+    Music bgm = assetManager.get("music/bgm.mp3");
+    bgm.setLooping(true);
+    bgm.play();
   }
 
   @Override

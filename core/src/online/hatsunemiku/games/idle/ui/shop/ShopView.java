@@ -11,10 +11,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import online.hatsunemiku.games.idle.logic.Player;
 import online.hatsunemiku.games.idle.logic.generator.GeneratorListener;
@@ -25,25 +27,35 @@ public class ShopView extends Stage {
 
   private static final Logger log = LoggerFactory.getLogger(ShopView.class);
   private boolean shouldEnter = false;
+  private final Player player;
+  private final TextButton clickerGen;
+  private final TextButton microphoneGen;
+  private final TextButton noteGen;
 
   public ShopView(AssetManager assetManager, Player player, InputMultiplexer multiplexer, Viewport viewport) {
     super();
     setViewport(viewport);
 
     Skin skin = assetManager.get("skins/StandardSkin.json");
-    Sound confirm = assetManager.get("sounds/buy.mp3");
     Sound cancel = assetManager.get("sounds/cancel.mp3");
 
     Table table = new Table();
     table.setFillParent(true);
 
     TextButton clickerGen = new TextButton("Buy Clicker", skin);
+    clickerGen.setWidth(table.getColumnWidth(0));
     TextButton noteGen = new TextButton("Buy Note", skin);
     TextButton microphoneGen = new TextButton("Buy Microphone", skin);
     TextButton exit = new TextButton("Exit", skin);
     Label label = new Label("", skin);
     label.setVisible(false);
     label.setFontScale(0.5f);
+    label.setAlignment(Align.center);
+    table.defaults().uniform().fill();
+
+    clickerGen.setDisabled(player.getPoints() < player.getGeneratorCost(CLICKER));
+    microphoneGen.setDisabled(player.getPoints() < player.getGeneratorCost(MICROPHONE));
+    noteGen.setDisabled(player.getPoints() < player.getGeneratorCost(NOTE));
 
     clickerGen.setTransform(true);
     noteGen.setTransform(true);
@@ -72,10 +84,16 @@ public class ShopView extends Stage {
     table.row();
     table.add(label);
 
-    table.debug();
-    addActor(table);
-    /*addActor(clickerGen);
-    addActor(exit);*/
+    //table.debug();
+
+    ScrollPane scrollPane = new ScrollPane(table);
+    scrollPane.setFillParent(true);
+    addActor(scrollPane);
+
+    this.player = player;
+    this.clickerGen = clickerGen;
+    this.microphoneGen = microphoneGen;
+    this.noteGen = noteGen;
   }
 
   private void exitShop(InputMultiplexer multiplexer, Label label) {
@@ -92,5 +110,14 @@ public class ShopView extends Stage {
     log.info("Entering shop");
     Gdx.input.setInputProcessor(this);
     shouldEnter = true;
+  }
+
+  @Override
+  public void draw() {
+    clickerGen.setDisabled(player.getPoints() < player.getGeneratorCost(CLICKER));
+    microphoneGen.setDisabled(player.getPoints() < player.getGeneratorCost(MICROPHONE));
+    noteGen.setDisabled(player.getPoints() < player.getGeneratorCost(NOTE));
+
+    super.draw();
   }
 }

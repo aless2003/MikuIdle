@@ -77,4 +77,11 @@ public final class Player {
       default -> throw new IllegalArgumentException("Unknown generator type");
     }
   }
+
+  public float getGeneratorCost(GeneratorValues costs) {
+    long generatorLevel = getGeneratorLevel(costs);
+    float additionalCost = costs.cost * (generatorLevel * 0.1f);
+
+    return costs.cost + additionalCost;
+  }
 }

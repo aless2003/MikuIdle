@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import online.hatsunemiku.games.idle.logic.Player;
 import org.slf4j.Logger;
@@ -19,9 +20,15 @@ public class GeneratorListener extends ClickListener {
   private final Label errorLabel;
   @Override
   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    super.touchDown(event, x, y, pointer, button);
+    TextButton btn = (TextButton) event.getListenerActor();
+    if (btn.isDisabled()) {
+      return false;
+    }
+    btn.setChecked(true);
     if (button == Buttons.LEFT) {
       log.debug("Trying to buy " + costs.name());
-      float cost = costs.cost * (player.getGeneratorLevel(costs) * 0.1f);
+      float cost = player.getGeneratorCost(costs);
       if (cost == 0) {
         cost = costs.cost;
       }
@@ -45,6 +52,13 @@ public class GeneratorListener extends ClickListener {
       }
     }
     return true;
+  }
+
+  @Override
+  public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+    super.touchUp(event, x, y, pointer, button);
+    TextButton btn = (TextButton) event.getListenerActor();
+    btn.setChecked(false);
   }
 
   public GeneratorListener(

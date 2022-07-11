@@ -25,31 +25,34 @@ com.badlogic.gdx.graphics.Color: {
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
-	ButtonUp: {
+	NeutralBackground: {
 		name: white-pixel
 		color: ButtonBackground
 	}
-	ButtonBackgroundDown: {
-		name: white-pixel
-		color: ButtonBackgroundDown
-	}
-	ButtonHover: {
-		name: white-pixel
-		color: ButtonHover
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+	default: {
+		up: button_up
+		down: button_down
+		over: button_up
+		checked: button_down
+		checkedOver: button_down
+		disabled: button_up
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: MikuMainFont
-		background: Label
+		background: NeutralBackground
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
 		font: MikuMainFont
-		up: ButtonUp
-		down: ButtonBackgroundDown
-		over: ButtonHover
+		up: button_up
+		down: button_down
+		checked: button_down
+		disabled: button_disabled
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {

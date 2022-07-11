@@ -6,22 +6,47 @@ filter: Linear, Linear
 repeat: none
 white-pixel
   rotate: false
-  xy: 1027, 1040
+  xy: 1027, 1055
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
-Label
+button_disabled
   rotate: false
-  xy: 1, 1
+  xy: 49, 31
   size: 46, 14
   split: 2, 2, 2, 4
   orig: 46, 14
   offset: 0, 0
   index: -1
+button_down
+  rotate: false
+  xy: 1027, 1058
+  size: 46, 13
+  split: 2, 2, 2, 3
+  orig: 46, 13
+  offset: 0, 0
+  index: -1
+button_up
+  rotate: false
+  xy: 1, 31
+  size: 46, 14
+  split: 2, 2, 2, 4
+  orig: 46, 14
+  offset: 0, 0
+  index: -1
+label
+  rotate: false
+  xy: 1, 15
+  size: 46, 14
+  split: 2, 2, 2, 2
+  pad: 3, 3, 2, 2
+  orig: 46, 14
+  offset: 0, 0
+  index: -1
 mikufont
   rotate: false
-  xy: 1, 17
+  xy: 1, 47
   size: 1024, 1024
   orig: 1024, 1024
   offset: 0, 0

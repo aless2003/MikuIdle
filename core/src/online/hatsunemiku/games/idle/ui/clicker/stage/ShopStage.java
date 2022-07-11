@@ -35,8 +35,16 @@ public class ShopStage extends Stage {
     button.addListener(new ClickListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        TextButton btn = (TextButton) event.getListenerActor();
+        btn.setChecked(true);
         shopView.enter();
         return true;
+      }
+
+      @Override
+      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+        TextButton btn = (TextButton) event.getListenerActor();
+        btn.setChecked(false);
       }
     });
     addActor(button);
